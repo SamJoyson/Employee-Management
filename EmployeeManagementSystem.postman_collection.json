@@ -1,0 +1,686 @@
+{
+  "info": {
+    "name": "Employee Management System API Collection",
+    "description": "Postman Collection for the Spring Boot Employee Management System REST API.\nContains endpoints for managing Employees, Attendance, Leaves, and Tasks with proper validation, status codes, and JSON response formats.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Employee Module",
+      "item": [
+        {
+          "name": "Add Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"phone\": \"+12345678901\",\n  \"department\": \"Engineering\",\n  \"designation\": \"Software Engineer\",\n  \"joiningDate\": \"2026-07-01\",\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/employees",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "employees"
+              ]
+            },
+            "description": "Create a new employee record. The email must be unique, and the phone must be a valid 10-15 digit phone number."
+          }
+        },
+        {
+          "name": "Get All Employees",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/employees",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "employees"
+              ]
+            },
+            "description": "Retrieve a list of all employees."
+          }
+        },
+        {
+          "name": "Get Employee By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/employees/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "employees",
+                "1"
+              ]
+            },
+            "description": "Retrieve details of a single employee by their ID."
+          }
+        },
+        {
+          "name": "Update Employee",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe Jr.\",\n  \"email\": \"john.doe@example.com\",\n  \"phone\": \"+19876543210\",\n  \"department\": \"Engineering\",\n  \"designation\": \"Senior Software Engineer\",\n  \"joiningDate\": \"2026-07-01\",\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/employees/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "employees",
+                "1"
+              ]
+            },
+            "description": "Update details of an existing employee by ID."
+          }
+        },
+        {
+          "name": "Delete Employee",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/employees/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "employees",
+                "1"
+              ]
+            },
+            "description": "Delete an employee record from the system."
+          }
+        },
+        {
+          "name": "Search Employee By Name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/employees/search/name?name=John",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "employees",
+                "search",
+                "name"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "John"
+                }
+              ]
+            },
+            "description": "Search employees whose name contains the search string (case-insensitive)."
+          }
+        },
+        {
+          "name": "Search Employee By Department",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/employees/search/department?department=Engineering",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "employees",
+                "search",
+                "department"
+              ],
+              "query": [
+                {
+                  "key": "department",
+                  "value": "Engineering"
+                }
+              ]
+            },
+            "description": "Search employees by department name."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Attendance Module",
+      "item": [
+        {
+          "name": "Add Manual Attendance",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": 1,\n  \"date\": \"2026-07-01\",\n  \"checkIn\": \"09:00:00\",\n  \"checkOut\": \"17:30:00\",\n  \"status\": \"Present\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/attendance",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "attendance"
+              ]
+            },
+            "description": "Manually create an attendance record. Automatically validates check-in/out order and uniqueness of employee per day."
+          }
+        },
+        {
+          "name": "Get All Attendance Records",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/attendance",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "attendance"
+              ]
+            },
+            "description": "Retrieve all logged attendance records."
+          }
+        },
+        {
+          "name": "Get Attendance By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/attendance/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "attendance",
+                "1"
+              ]
+            },
+            "description": "Retrieve a specific attendance record by ID."
+          }
+        },
+        {
+          "name": "Update Attendance",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": 1,\n  \"date\": \"2026-07-01\",\n  \"checkIn\": \"08:45:00\",\n  \"checkOut\": \"18:00:00\",\n  \"status\": \"Present\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/attendance/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "attendance",
+                "1"
+              ]
+            },
+            "description": "Update details of an attendance record."
+          }
+        },
+        {
+          "name": "Delete Attendance",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/attendance/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "attendance",
+                "1"
+              ]
+            },
+            "description": "Remove an attendance record."
+          }
+        },
+        {
+          "name": "Get Attendance By Employee",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/attendance/employee/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "attendance",
+                "employee",
+                "1"
+              ]
+            },
+            "description": "Get all attendance history for a specific employee."
+          }
+        },
+        {
+          "name": "Check-In Employee (Current Date/Time)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/attendance/checkin/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "attendance",
+                "checkin",
+                "1"
+              ]
+            },
+            "description": "Log check-in event for employee today. Determines status ('Present' or 'Late' depending on late-limit 09:15)."
+          }
+        },
+        {
+          "name": "Check-Out Employee (Current Date/Time)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/attendance/checkout/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "attendance",
+                "checkout",
+                "1"
+              ]
+            },
+            "description": "Log check-out event for employee today. Automatically calculates duration (workingHours)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leave Module",
+      "item": [
+        {
+          "name": "Apply Leave Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": 1,\n  \"leaveType\": \"Sick Leave\",\n  \"fromDate\": \"2026-07-10\",\n  \"toDate\": \"2026-07-12\",\n  \"reason\": \"Medical treatment for fever\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/leaves",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leaves"
+              ]
+            },
+            "description": "Submit a leave request. Dates must be chronological. Status is set to 'Pending' by default."
+          }
+        },
+        {
+          "name": "Get All Leaves",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/leaves",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leaves"
+              ]
+            },
+            "description": "Retrieve list of all leaves."
+          }
+        },
+        {
+          "name": "Get Leave By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/leaves/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leaves",
+                "1"
+              ]
+            },
+            "description": "Retrieve details of a leave request by ID."
+          }
+        },
+        {
+          "name": "Update Leave Details",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": 1,\n  \"leaveType\": \"Casual Leave\",\n  \"fromDate\": \"2026-07-10\",\n  \"toDate\": \"2026-07-11\",\n  \"reason\": \"Family function\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/leaves/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leaves",
+                "1"
+              ]
+            },
+            "description": "Modify leave request parameters prior to approval."
+          }
+        },
+        {
+          "name": "Approve Leave",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/leaves/1/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leaves",
+                "1",
+                "approve"
+              ]
+            },
+            "description": "Approve a leave request. Status will change from Pending to Approved."
+          }
+        },
+        {
+          "name": "Reject Leave",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/leaves/1/reject",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leaves",
+                "1",
+                "reject"
+              ]
+            },
+            "description": "Reject a leave request. Status will change from Pending to Rejected."
+          }
+        },
+        {
+          "name": "Get Leave Requests By Employee",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/leaves/employee/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leaves",
+                "employee",
+                "1"
+              ]
+            },
+            "description": "Fetch leave applications history for a specific employee."
+          }
+        },
+        {
+          "name": "Delete Leave Request",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/leaves/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leaves",
+                "1"
+              ]
+            },
+            "description": "Delete a leave record."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Task Module",
+      "item": [
+        {
+          "name": "Create & Assign Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": 1,\n  \"title\": \"Implement Authentication\",\n  \"description\": \"Set up JWT based authentication system in application.\",\n  \"priority\": \"High\",\n  \"dueDate\": \"2026-07-15\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tasks"
+              ]
+            },
+            "description": "Create and assign a task to an employee. Priority must be Low, Medium, or High. Status defaults to Todo."
+          }
+        },
+        {
+          "name": "Get All Tasks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tasks"
+              ]
+            },
+            "description": "Retrieve all tasks from the system."
+          }
+        },
+        {
+          "name": "Get Task By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tasks/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tasks",
+                "1"
+              ]
+            },
+            "description": "Retrieve details of a single task."
+          }
+        },
+        {
+          "name": "Update Task Details",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": 1,\n  \"title\": \"Implement Authentication & Authorization\",\n  \"description\": \"Set up JWT based auth and roles authorization in project.\",\n  \"priority\": \"High\",\n  \"dueDate\": \"2026-07-18\",\n  \"status\": \"In Progress\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tasks/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tasks",
+                "1"
+              ]
+            },
+            "description": "Update task attributes and parameters."
+          }
+        },
+        {
+          "name": "Update Task Status (Patch)",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tasks/1/status?status=Completed",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tasks",
+                "1",
+                "status"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "Completed"
+                }
+              ]
+            },
+            "description": "Quick patch update to the task progress status (Todo, In Progress, Completed)."
+          }
+        },
+        {
+          "name": "Get Tasks By Employee",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tasks/employee/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tasks",
+                "employee",
+                "1"
+              ]
+            },
+            "description": "Fetch tasks assigned to a specific employee."
+          }
+        },
+        {
+          "name": "Get Pending Tasks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tasks/pending",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tasks",
+                "pending"
+              ]
+            },
+            "description": "Get all tasks with status not equal to 'Completed' (e.g. Todo and In Progress)."
+          }
+        },
+        {
+          "name": "Delete Task",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tasks/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tasks",
+                "1"
+              ]
+            },
+            "description": "Delete a task."
+          }
+        }
+      ]
+    }
+  ]
+}
